@@ -7,7 +7,7 @@ and displayed it on streamlit web application
 
 Skills learnt in this project:
 
-    1. Python
+    1. Python (class and object)
     2. API integration
     3.Data Collection
     4. Pandas
