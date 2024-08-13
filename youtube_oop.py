@@ -36,117 +36,7 @@ class Youtube:
 
         self.connect = self.db.cursor()
 
-
-    # def channel(self):# returns channel details dataframe
-    #     request = self.youtube.channels().list(
-    #         part="snippet,contentDetails,statistics",
-    #         id=self.channel_id
-    #     )
-    #     channel_response = request.execute()
-
-
-    #     channel_data = {
-    #         "channel_id": channel_response["items"][0]["id"],
-    #         "channel_name": channel_response["items"][0]["snippet"]["title"],
-    #         "description": channel_response["items"][0]["snippet"]["description"],
-    #         "date": channel_response["items"][0]["snippet"]["publishedAt"],
-    #         "upload_id": channel_response["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"],
-    #         "views": channel_response["items"][0]["statistics"]["viewCount"],
-    #         "subscribers": channel_response["items"][0]["statistics"]["subscriberCount"],
-    #         "videos": channel_response["items"][0]["statistics"]["videoCount"]
-    #     }
-    #     df = pd.DataFrame(channel_data, index=[0])
-    #     df['date'] = (pd.to_datetime(df['date'], utc=True)).dt.date
-    #     df['date'] = pd.to_datetime(df['date'])
-    #     return df
-
-
-    # def channel_image(self): # returns channel profile image
-    #     request = self.youtube.channels().list(
-    #                 part="snippet",
-    #                 id=self.channel_id
-    #             ).execute()
-    #     image= request['items'][0]['snippet']['thumbnails']['default']['url']
-    #     return image
-    
-    
-    # def video_ids(self): # returns all videos ids in the channel
-    #         video_ids=[]
-    #         response=self.youtube.channels().list(part="contentDetails",id= self.channel_id).execute()
-    #         playlist_id=response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
-
-    #         next_page_token=None
-
-    #         while True:
-    #             playlist_response = self.youtube.playlistItems().list(
-    #                     part="snippet",
-    #                     maxResults=50,
-    #                     pageToken=next_page_token,
-    #                     playlistId=playlist_id).execute()
-
-    #             for i in range(len(playlist_response['items'])):
-    #                 video_ids.append(playlist_response['items'][i]['snippet']['resourceId']['videoId'])
-    #             next_page_token=playlist_response.get('nextPageToken')
-
-    #             if next_page_token is None:
-    #                 break
-    #         return video_ids
-
-    # def video_details(self,video_ids): # returns video deatils dataframe
-    #     video_details=[]
-    #     for video_id in video_ids:
-    #         response= self.youtube.videos().list(part="snippet,contentDetails,statistics",id=video_id).execute()
-
-
-    #         for i in response['items']:
-    #           data = {"channel_id":i['snippet']['channelId'],
-    #                             "video_id":i['id'],
-    #                             "video_name":i['snippet']['title'],
-    #                             "description":i['snippet']['description'],
-    #                             "published_at":i['snippet']['publishedAt'],
-    #                             "views":i['statistics']['viewCount'],
-    #                             "likes":i['statistics'].get('likeCount'),
-    #                             "dislikes":i.get('dislikeCount'),
-    #                             "favorites":i['statistics']['favoriteCount'],
-    #                             "comments":i['statistics'].get('commentCount'),
-    #                             "duration":i['contentDetails']['duration'],
-    #                             "thumbnail":i['snippet']['thumbnails']['default'] ['url'],
-    #                             "caption_status":i['contentDetails']['caption'],
-    #                             "tags":",".join(i['snippet'].get('tags',["na"]))}
-
-    #           video_details.append(data)
-    #         df = pd.DataFrame(video_details)
-    #         df['published_at'] = pd.to_datetime(df['published_at'], format='%Y-%m-%dT%H:%M:%SZ')
-    #         df['duration'] = pd.to_timedelta(df['duration'])
-    #         df['duration'] = df['duration'].apply(lambda x: str(x).split()[-1] if 'days' in str(x) else str(x))
-    #         df['duration'] = pd.to_timedelta(df['duration'])
-    #     return df
-
-
-
-    # def comment_details(self, videos_ids): # returns comment details dataframe
-    #     comment_details=[]
-
-    #     for video_ids in videos_ids:
-    #       try:
-    #         response=self.youtube.commentThreads().list(part="snippet",videoId=video_ids,maxResults=20).execute()
-
-    #         for i in response['items']:
-    #             data={'comment_id':i['id'],
-    #                         'video_id': i['snippet']['videoId'],
-    #                         'text':i['snippet']['topLevelComment']['snippet']['textDisplay'],
-    #                         'author':i['snippet']['topLevelComment']['snippet']['authorDisplayName'],
-    #                         'published_at':i['snippet']['topLevelComment']['snippet']['publishedAt']}
-    #             comment_details.append(data)
-
-    #       except:
-    #         pass
-
-    #     df = pd.DataFrame(comment_details)
-    #     df['published_at'] = pd.to_datetime(df['published_at'], format='%Y-%m-%dT%H:%M:%SZ')
-    #     return df
-        ('-----------------------------------------------------------------------------------------------------')
-
+    # returns channel details
     def channel(self):
         try:
             request = self.youtube.channels().list(
@@ -177,6 +67,7 @@ class Youtube:
 
         return df
 
+    # returns video ids
     def video_ids(self): 
         video_ids = []
         response = self.youtube.channels().list(part="contentDetails", id=self.channel_id).execute()
@@ -209,7 +100,8 @@ class Youtube:
         return video_ids
 
 
-
+    
+    # returns video details
     def video_details(self, video_ids):  # returns video details dataframe
         video_details = []
         
@@ -250,7 +142,8 @@ class Youtube:
         
         return df
 
-    def comment_details(self, video_ids):  # returns comment details dataframe
+    # returns comment details dataframe
+    def comment_details(self, video_ids):  
         comment_details = []
 
         for video_id in video_ids:
