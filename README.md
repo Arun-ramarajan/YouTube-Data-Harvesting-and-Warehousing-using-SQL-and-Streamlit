@@ -12,4 +12,4 @@ Skills learnt in this project:
     3.Data Collection
     4. Pandas
     5. SQL
-    6.Streamlit'
+    6.Streamlit
