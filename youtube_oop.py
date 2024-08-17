@@ -122,7 +122,7 @@ class Youtube:
                         "dislikes": i.get('dislikeCount'),
                         "favorites": i['statistics']['favoriteCount'],
                         "comments": i['statistics'].get('commentCount'),
-                        "duration": i['contentDetails']['duration'],
+                        "duration": duration_seconds,
                         "thumbnail": i['snippet']['thumbnails']['default']['url'],
                         "caption_status": i['contentDetails']['caption'],
                         "tags": ",".join(i['snippet'].get('tags', ["na"]))
