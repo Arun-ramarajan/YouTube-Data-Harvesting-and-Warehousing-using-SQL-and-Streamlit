@@ -110,6 +110,7 @@ class Youtube:
                 response = self.youtube.videos().list(part="snippet,contentDetails,statistics", id=video_id).execute()
 
                 for i in response['items']:
+                    duration_seconds = parse_duration(i['contentDetails']['duration']).total_seconds()
                     data = {
                         "channel_id": i['snippet']['channelId'],
                         "video_id": i['id'],
