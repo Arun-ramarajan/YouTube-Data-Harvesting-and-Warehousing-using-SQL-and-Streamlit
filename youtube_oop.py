@@ -102,7 +102,7 @@ class Youtube:
 
     
     # returns video details
-    def video_details(self, video_ids):  # returns video details dataframe
+    def video_details(self, video_ids):  
         video_details = []
         
         for video_id in video_ids:
